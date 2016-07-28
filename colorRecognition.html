@@ -1,0 +1,93 @@
+<html>
+<head>
+<link rel="stylesheet" href="buttonStyle.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="ntc.js"></script>
+<script src="buttonScript.js"></script>
+<meta charset= "utf-8>
+  <meta name= "viewport" content= "width=device-width, inital-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<!-- <img id="img" src="apple.png"
+crossOrigin="anonymous" width="256" height="256"> -->
+
+<pre id="output"></pre>
+<script>
+// ALL OF JAVASCRIPT
+$(function() {
+    
+    $('img').click(function(e) {
+        
+        if(!this.canvas) {
+            this.canvas = document.createElement('canvas');
+            this.canvas.width = img.width;
+            this.canvas.height = img.width;
+            this.canvas.getContext('2d').drawImage(this, 0, 0, 256, 256);
+        }
+        var ctx = this.canvas.getContext('2d');
+        var myData = ctx.getImageData(0,0,255,255);
+
+         var offX  = (e.offsetX || e.clientX - $(e.target).offset().left);
+         var offY  = (e.offsetY || e.clientY - $(e.target).offset().top);
+        console.log(offX + ' ' + offY);
+        
+        var pixelData = this.canvas.getContext('2d').getImageData(offX, offY, 1, 1).data;
+
+        //Function that takes in pixelData values and turns them to HEX
+
+        function componentToHex(c) {
+          var hex = c.toString(16);
+          return hex.length == 1 ? "0" + hex : hex;
+    }
+
+        function rgbToHex(r, g, b) {
+          return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+        var n_match = ntc.name(rgbToHex(pixelData[0], pixelData[1], pixelData[2]));
+        n_name = n_match[1];
+
+        $('#output').html(
+                          '<br>Color: ' + n_name)
+        
+    });  
+    
+    
+});
+</script>
+
+<div class="container">
+    <div class="row">    
+        <div class="col-xs-12 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">  
+            <!-- image-preview-filename input [CUT FROM HERE]-->
+            <div class="input-group image-preview">
+                <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                <span class="input-group-btn">
+                    <!-- image-preview-clear button -->
+                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                        <span class="glyphicon glyphicon-remove"></span> Clear
+                    </button>
+                    <!-- image-preview-input -->
+                    <div class="btn btn-default image-preview-input">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        <span class="image-preview-input-title">Browse</span>
+                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/> <!-- rename it -->
+                    </div>
+                </span>
+            </div><!-- /input-group image-preview [TO HERE]--> 
+        </div>
+    </div>
+</div>
+<img id="img" src="x"
+crossOrigin="anonymous" width="256" height="256">
+
+</body>
+</html>
